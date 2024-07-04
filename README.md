@@ -38,6 +38,14 @@ To get started, follow these simple steps for setting up the One-Click Dense Pos
    python convert.py --input PATH_TO_INPUT_VIDEO --output OUTPUT_VIDEO_PATH
    ```
 
+5. Run the conversion script:
+
+   it creates several files per input file UV map and the original segmentation
+   
+   ```bash
+   python detect.py --i INPUT_FOLDER --output OUTPUT_FOLDER
+   ```
+
 Replace `PATH_TO_INPUT_VIDEO` with the path to your input video file and `OUTPUT_VIDEO_PATH` with the desired path for the output DensePose video.
 
 ## Contributions Welcome

@@ -1,3 +1,5 @@
+"""Modified helper uses DensePoseResultsFineSegmentationVisualizer and DensePoseResultsUVisualizer"""
+
 import logging
 import torch
 import numpy as np
@@ -9,8 +11,8 @@ from densepose.vis.extractor import (
 )
 from densepose.vis.densepose_results import (
     DensePoseResultsFineSegmentationVisualizer as Visualizer,
+    DensePoseResultsUVisualizer as UV_Visualizer,
 )
-
 
 class GetLogger:
     @staticmethod
@@ -34,7 +36,8 @@ class Predictor:
         self.predictor = DefaultPredictor(cfg)
         self.extractor = DensePoseResultExtractor()
         self.visualizer = Visualizer()
-
+        self.uvvisualizer = UV_Visualizer(to_visualize="V")
+        
     def predict(self, frame):
         with torch.no_grad():
             outputs = self.predictor(frame)["instances"]
@@ -42,8 +45,10 @@ class Predictor:
 
         out_frame = frame.copy()
         out_frame_seg = np.zeros(out_frame.shape, dtype=out_frame.dtype)
+        out_frame_uv = frame.copy() #np.zeros(out_frame.shape, dtype=out_frame.dtype)
 
         self.visualizer.visualize(out_frame, outputs)
         self.visualizer.visualize(out_frame_seg, outputs)
+        self.uvvisualizer.visualize(out_frame_uv, outputs)
 
-        return (out_frame, out_frame_seg)
+        return (out_frame, out_frame_seg, out_frame_uv)

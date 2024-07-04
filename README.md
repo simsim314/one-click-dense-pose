@@ -1,53 +1,29 @@
 # One-Click Dense Pose
 
+[Check this out](https://github.com/davidleejy/DensePose/tree/speedup/notebooks)
+
 ## Overview
-
-![Input Video](assets/input.gif)
-![Output Generated Video](assets/output.gif)
-
-Video Credit: [cottonbro studio at Pexels](https://www.pexels.com/video/hip-hop-dancing-2795746/)
-
-The One-Click Dense Pose project is designed to simplify the process of converting a regular input video into a DensePose-enhanced video with just a single command. DensePose is a method for mapping pixels in images of people to 3D surface coordinates and body part labels. This project streamlines the conversion process, making it accessible with minimal effort.
+Logical continuation of the [original repository](https://github.com/Pawandeep-prog/one-click-dense-pose)
 
 ## Installation
 
-To get started, follow these simple steps for setting up the One-Click Dense Pose project:
+[start.ipynb](start.ipynb)
 
-1. Clone the repository:
+## Run
 
-   ```bash
-   git clone https://github.com/Pawandeep-prog/one-click-dense-pose.git
-   cd one-click-dense-pose
-   ```
-
-2. Install the required dependencies:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Download the pre-trained DensePose models:
-
-   ```bash
-   sh download-models.sh
-   ```
-
-4. Run the conversion script:
-
+1. Old method for videos
+    
    ```bash
    python convert.py --input PATH_TO_INPUT_VIDEO --output OUTPUT_VIDEO_PATH
    ```
 
-5. Run the conversion script:
+2. New method on folder images
 
    it creates several files per input file UV map and the original segmentation
    
    ```bash
    python detect.py --i INPUT_FOLDER --output OUTPUT_FOLDER
    ```
-
-Replace `PATH_TO_INPUT_VIDEO` with the path to your input video file and `OUTPUT_VIDEO_PATH` with the desired path for the output DensePose video.
-
 ## Contributions Welcome
 
-This project is in its initial stages, and contributions are highly encouraged. Feel free to fork the repository, make improvements, fix bugs, or add new features. Submit pull requests to contribute to the development of the One-Click Dense Pose tool. Your ideas and enhancements are welcome as we work together to make this tool even more powerful and user-friendly.
+Welcome to contribute here or to the original or fork and do whatever you want. 

@@ -5,6 +5,7 @@
 ## Overview
 Logical continuation of the [original repository](https://github.com/Pawandeep-prog/one-click-dense-pose)
 
+Added detector.py and modified helper.py in utils. 
 ## Installation
 
 [start.ipynb](start.ipynb)

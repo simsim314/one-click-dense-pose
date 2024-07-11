@@ -48,7 +48,7 @@ def process_image(image_file, input_folder, output_folder, predictor, rescale):
     
     # Write the processed image to the output folder
     output_image_path = create_output_structure(input_folder, output_folder, image_file)
-    np.savez(output_image_path.split(".")[0] + ".npz", out_frame_seg)
+    np.savez_compressed(output_image_path.split(".")[0] + ".npz", out_frame_seg)
     
     # cv2.imwrite(output_image_path, out_frame_seg)
     # cv2.imwrite(output_image_path.split(".")[0]+"_orig.png", out_frame)

@@ -1,14 +1,27 @@
 import cv2
 import os
+import shutil
 from utils.helper import GetLogger, Predictor
 from argparse import ArgumentParser
 import sys
-import numpy as np 
+import numpy as np
 
 def get_image_files(input_folder):
     valid_extensions = ('.jpg', '.jpeg', '.png', '.bmp')
-    return [f for f in os.listdir(input_folder) if f.lower().endswith(valid_extensions)]
+    image_files = []
+    for root, dirs, files in os.walk(input_folder):
+        for file in files:
+            if file.lower().endswith(valid_extensions):
+                image_files.append(os.path.join(root, file))
+    return image_files
 
+def create_output_structure(input_folder, output_folder, image_file):
+    relative_path = os.path.relpath(image_file, input_folder)
+    output_image_path = os.path.join(output_folder, relative_path)
+    output_image_dir = os.path.dirname(output_image_path)
+    if not os.path.exists(output_image_dir):
+        os.makedirs(output_image_dir)
+    return output_image_path
 
 parser = ArgumentParser()
 parser.add_argument(
@@ -18,7 +31,6 @@ parser.add_argument(
     "-o", "--output", type=str, help="Set the output path to the folder for saving processed images", default="detected"
 )
 args = parser.parse_args()
-
 
 logger = GetLogger.logger(__name__)
 predictor = Predictor()
@@ -36,7 +48,7 @@ logger.info(f"No of images {n_images}")
 # Process each image
 done = 0
 for image_file in image_files:
-    image_path = os.path.join(input_folder, image_file)
+    image_path = image_file
     frame = cv2.imread(image_path)
     if frame is None:
         logger.warning(f"Failed to read image {image_path}")
@@ -45,7 +57,7 @@ for image_file in image_files:
     out_frame, out_frame_seg, out_frame_uv = predictor.predict(frame)
     
     # Write the processed image to the output folder
-    output_image_path = os.path.join(output_folder, image_file)
+    output_image_path = create_output_structure(input_folder, output_folder, image_file)
     np.savez(output_image_path.split(".")[0] + ".npz", out_frame_seg)
     
     # cv2.imwrite(output_image_path, out_frame_seg)

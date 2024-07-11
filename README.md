@@ -27,6 +27,15 @@ Added detector.py and modified helper.py in utils.
    ```bash
    python detect.py -i INPUT_FOLDER -o OUTPUT_FOLDER
    ```
+
+3. Newer method will generate .npz of each image file detections (no gradients pure organ detections) so you could analyze it further the pipeline and not have a problem of compression.
+It also keeps the same format and creates the same directory structure in output traversing in all subfolders not only directly under.
+
+   ```bash
+   python detect_np.py -i INPUT_FOLDER -o OUTPUT_FOLDER
+   ```
+much more useful for data processig as part of larger projects. 
+   
 ## Contributions Welcome
 
 Welcome to contribute here or to the original or fork and do whatever you want. 

@@ -25,7 +25,7 @@ Added detector.py and modified helper.py in utils.
    it creates several files per input file UV map and the original segmentation
    
    ```bash
-   python detect.py --i INPUT_FOLDER --output OUTPUT_FOLDER
+   python detect.py -i INPUT_FOLDER -o OUTPUT_FOLDER
    ```
 ## Contributions Welcome
 

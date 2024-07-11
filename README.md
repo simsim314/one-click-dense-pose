@@ -12,6 +12,8 @@ Added detector.py and modified helper.py in utils.
 
 ## Run
 
+0. sh ./download-models.sh
+
 1. Old method for videos
     
    ```bash

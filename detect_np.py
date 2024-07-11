@@ -5,6 +5,7 @@ from utils.helper import GetLogger, Predictor
 from argparse import ArgumentParser
 import sys
 import numpy as np
+from concurrent.futures import ThreadPoolExecutor
 
 def get_image_files(input_folder):
     valid_extensions = ('.jpg', '.jpeg', '.png', '.bmp')
@@ -22,6 +23,25 @@ def create_output_structure(input_folder, output_folder, image_file):
     if not os.path.exists(output_image_dir):
         os.makedirs(output_image_dir)
     return output_image_path
+
+def process_image(image_file, input_folder, output_folder, predictor):
+    image_path = image_file
+    frame = cv2.imread(image_path)
+    if frame is None:
+        logger.warning(f"Failed to read image {image_path}")
+        return False
+
+    out_frame, out_frame_seg, out_frame_uv = predictor.predict(frame)
+    
+    # Write the processed image to the output folder
+    output_image_path = create_output_structure(input_folder, output_folder, image_file)
+    np.savez(output_image_path.split(".")[0] + ".npz", out_frame_seg)
+    
+    # cv2.imwrite(output_image_path, out_frame_seg)
+    # cv2.imwrite(output_image_path.split(".")[0]+"_orig.png", out_frame)
+    # cv2.imwrite(output_image_path.split(".")[0]+"_uv.png", out_frame_uv)
+
+    return True
 
 parser = ArgumentParser()
 parser.add_argument(
@@ -45,30 +65,21 @@ image_files = get_image_files(input_folder)
 n_images = len(image_files)
 logger.info(f"No of images {n_images}")
 
-# Process each image
+# Process images in parallel
 done = 0
-for image_file in image_files:
-    image_path = image_file
-    frame = cv2.imread(image_path)
-    if frame is None:
-        logger.warning(f"Failed to read image {image_path}")
-        continue
 
-    out_frame, out_frame_seg, out_frame_uv = predictor.predict(frame)
-    
-    # Write the processed image to the output folder
-    output_image_path = create_output_structure(input_folder, output_folder, image_file)
-    np.savez(output_image_path.split(".")[0] + ".npz", out_frame_seg)
-    
-    # cv2.imwrite(output_image_path, out_frame_seg)
-    # cv2.imwrite(output_image_path.split(".")[0]+"_orig.png", out_frame)
-    # cv2.imwrite(output_image_path.split(".")[0]+"_uv.png", out_frame_uv)
-
+def update_progress(future):
+    global done
     done += 1
     percent = int((done / n_images) * 100)
     sys.stdout.write(
         "\rProgress: [{}{}] {}%".format("=" * percent, " " * (100 - percent), percent)
     )
     sys.stdout.flush()
+
+with ThreadPoolExecutor() as executor:
+    futures = [executor.submit(process_image, image_file, input_folder, output_folder, predictor) for image_file in image_files]
+    for future in futures:
+        future.add_done_callback(update_progress)
 
 logger.info("Processing completed.")

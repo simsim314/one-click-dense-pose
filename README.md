@@ -1,5 +1,6 @@
 # One-Click Dense Pose
 
+```!git clone https://github.com/simsim314/one-click-dense-pose.git```
 
 ## Overview
 Logical continuation of the [original repository](https://github.com/Pawandeep-prog/one-click-dense-pose)

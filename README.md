@@ -37,7 +37,7 @@ It also keeps the same format and creates the same directory structure in output
    much more useful for data processig as part of larger projects.
    
    *Note:* It run in parallel to optimize resources. 
-   
+   *Note:* Add -r True if you want to rescale all images to max_dime = 512 if higher
 ## Contributions Welcome
 
 Welcome to contribute here or to the original or fork and do whatever you want. 

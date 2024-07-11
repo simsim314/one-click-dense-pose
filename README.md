@@ -34,8 +34,9 @@ It also keeps the same format and creates the same directory structure in output
    ```bash
    python detect_np.py -i INPUT_FOLDER -o OUTPUT_FOLDER
    ```
-   much more useful for data processig as part of larger projects. 
-   *Note: It run in parallel to optimize resources. 
+   much more useful for data processig as part of larger projects.
+   
+   *Note:* It run in parallel to optimize resources. 
    
 ## Contributions Welcome
 
